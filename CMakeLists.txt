@@ -23,11 +23,15 @@ find_package(catkin REQUIRED COMPONENTS
   nav_msgs
 )
 
-# Find Gazebo
-find_package(gazebo REQUIRED)
-include_directories(${GAZEBO_INCLUDE_DIRS})
-link_directories(${GAZEBO_LIBRARY_DIRS})
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GAZEBO_CXX_FLAGS}")
+option(BUILD_GAZEBO_PLUGIN "Build Gazebo plugin target" OFF)
+
+if(BUILD_GAZEBO_PLUGIN)
+  # Find Gazebo
+  find_package(gazebo REQUIRED)
+  include_directories(${GAZEBO_INCLUDE_DIRS})
+  link_directories(${GAZEBO_LIBRARY_DIRS})
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GAZEBO_CXX_FLAGS}")
+endif()
 
 # Find OpenCV
 find_package(OpenCV REQUIRED)
@@ -225,8 +229,10 @@ include_directories(
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
 
-add_library(wpr_plugin SHARED src/wpr_plugin.cpp)
-target_link_libraries(wpr_plugin ${GAZEBO_LIBRARIES})
+if(BUILD_GAZEBO_PLUGIN)
+  add_library(wpr_plugin SHARED src/wpr_plugin.cpp)
+  target_link_libraries(wpr_plugin ${GAZEBO_LIBRARIES})
+endif()
 
 add_executable(wpb_home_sim
   src/wpb_home_sim.cpp
