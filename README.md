@@ -18,6 +18,22 @@ Youtube: [机器人操作系统ROS 快速入门教程](https://www.youtube.com/w
 
 ## 使用说明
 
+## 树莓派 Ubuntu20.04 + ROS base 说明（仅关闭Gazebo仿真插件编译）
+
+树莓派上如果没有安装 Gazebo，可以直接编译（默认已关闭 Gazebo 插件目标）：
+
+```bash
+cd ~/catkin_ws
+catkin_make
+```
+
+如果后续你装好了 Gazebo，再打开插件编译：
+
+```bash
+cd ~/catkin_ws
+catkin_make -DBUILD_GAZEBO_PLUGIN=ON
+```
+
 ### 一、 启智ROS机器人
 1. 获取源码:
 ```
